@@ -1,38 +1,25 @@
 module Exercise
   module Arrays
     class << self
-      def replace(array)
-        def max(array)
-          max = array[0]
-          for i in array do
-            max = i if max < i
-          end
-          max
-        end
-
-        def replace_with_max(array, max)
-          array.map! { |el| el.positive? ? max : el }
-          array
-        end
-        replace_with_max(array, max(array))
+      def max(array)
+        max = array[0]
+        array.each { |item| max = item if max < item }
+        max
       end
 
-      def search(array, query)
-        def bsearch(arr, target, low, high)
-          if high < low
-            -1
-          else
-            mid = ((low + high) / 2)
-            if arr[mid] == target
-              mid
-            elsif target > arr[mid]
-              bsearch(arr, target, (low + 1), high)
-            else
-              bsearch(arr, target, low, (high - 1))
-            end
-          end
+      def replace(array)
+        array.map { |item| item.positive? ? max(array) : item }
+      end
+
+      def search(array, query, low = 0, high = array.length - 1)
+        high < low ? (return -1) : (mid = ((low + high) / 2))
+        if array[mid] == query
+          mid
+        elsif query > array[mid]
+          search(array, query, (low + 1), high)
+        else
+          search(array, query, low, (high - 1))
         end
-        bsearch(array, query, 0, array.length - 1)
       end
     end
   end
